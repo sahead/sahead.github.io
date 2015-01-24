@@ -6,46 +6,23 @@
 		body {
 			margin: 0;
 			padding: 0;
-			background-color: #000000;
+			background-color: #443388;
 		}
 	</style>
 	<script src="lib/pixi.js"></script>
+	<script src="js/bunny.js"></script>
+	<script src="js/behaviors/jumble.js"></script>
+	<script src="js/behaviors/swarm.js"></script>
 </head>
 <body>
 	<script>
-	var Bunny = {
-			bunny_texture: PIXI.Texture.fromImage("textures/bunny.png"),
-			bunny_all: [],
-			createBunny: function(stage) {
-				// create a new Sprite using the texture
-				var newBunny = new PIXI.Sprite(Bunny.bunny_texture);
-			
-				// center the sprites anchor point
-				newBunny.anchor.x = 0.5;
-				newBunny.anchor.y = 0.5;
-			
-				// move the sprite t the center of the screen
-				newBunny.position.x = 200;
-				newBunny.position.y = 150;
-				newBunny.scale.x = 5;
-				newBunny.scale.y = 5;
-				
-				Bunny.bunny_all[Bunny.bunny_all.length] = newBunny;
-				
-				if (stage) {
-					stage.addChild(newBunny);
-				}
-				
-				return newBunny;
-			}
-		}
-	
-	var numBunnies = 10;
+	var numBunnies = 20;
 	// create an new instance of a pixi stage
-	var stage = new PIXI.Stage(0x66FF99);
-
+	var stage = new PIXI.Stage(0x443388);
+	var stage_height = 300;
+	var stage_width = 1000;
 	// create a renderer instance.
-	var renderer = PIXI.autoDetectRenderer(400, 300);
+	var renderer = PIXI.autoDetectRenderer(stage_width, stage_width);
 
 	// add the renderer view element to the DOM
 	document.body.appendChild(renderer.view);
@@ -53,17 +30,17 @@
 	requestAnimFrame( animate );
 
 	for (var i = 0; i < numBunnies; i++) {
-		Bunny.createBunny(stage);
+		var bunny = Bunny.createBunny(stage);
+		Jumbler.add(bunny);
+		Swarm.add(bunny);
 	}
-
 
 	function animate() {
 
 	    requestAnimFrame( animate );
 
-	    for (var i = 0; i < Bunny.bunny_all.length; i++) {
-	    	Bunny.bunny_all[i].rotation += 0.1 * (i + 1);
-	    }
+	    Jumbler.animate();
+	    Swarm.animate(stage);
 
 	    // render the stage   
 	    renderer.render(stage);

@@ -10,8 +10,8 @@ var Bunny = {
 		newBunny.anchor.y = 0.5;
 	
 		// move the sprite t the center of the screen
-		newBunny.position.x = 200;
-		newBunny.position.y = 150;
+		newBunny.position.x = stage_width * Math.random();
+		newBunny.position.y = stage_height * Math.random();
 		newBunny.scale.x = 5;
 		newBunny.scale.y = 5;
 		
