@@ -72,7 +72,7 @@ function background_1(_stage) {
 		if (cDot.alpha > 1) cDot.alpha = 1;
 		cDot.rotation = Math.random() * 360;
 		cDot.speedx = (scale * 1 + .2) * dir;
-		cDot.speedy = Math.random() * - .4;
+		cDot.speedy = Math.random() * 2 - 1;
 		cDot.tint = Math.random() * 0xFFFFFF;
 		this.stage.addChild(cDot);
 		this.dots.push(cDot);
