@@ -3,7 +3,7 @@ function background_1(_stage) {
 	this.started = false;
 	this.dots = [];
 	this.dotTexture = PIXI.Texture.fromImage("textures/Dot.png");
-	this.c = 1;
+	this.c = 0;
 	this.loop = function () {
 		this.c += 1;
 		if (this.started) {
