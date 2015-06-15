@@ -11,39 +11,51 @@ function background_1(_stage) {
 			var mouseY = this.stage.getMousePosition().y;
 			for (var i = 0; i < this.dots.length; i++) {
 				var cDot = this.dots[i];
-				cDot.position.x += cDot.speedx;
-				cDot.baseY += cDot.speedy;
-				var xDist = mouseX - cDot.position.x;
-				var r = 80;
-				var expYDist = (Math.sqrt(r * r - ((xDist - 0) * (xDist - 0))/1.5));
-				var tY;
-				if (!expYDist || expYDist == 0) {
-					tY = cDot.baseY;
-				} else if (cDot.position.y > mouseY) {
-					tY  = Math.max(mouseY + expYDist, cDot.baseY);
-				} else {
-					tY  = Math.min(mouseY - expYDist, cDot.baseY);
-				}
-				cDot.position.y -= (cDot.position.y - tY) / 5;
 				if (cDot.position.x > this.stage.stage_width + 300 ||
 						cDot.position.x < -300) {
 				    this.stage.removeChild(cDot);
 					this.dots.splice(i, 1);
 				}
 			}
-			if (this.c % 3 == 0) {
-				this.spawnDot();
-				this.spawnDot();
-				this.spawnDot();
-				this.spawnDot();
-				this.spawnDot();
-				this.spawnDot();
+			for (var i = 0; i < this.dots.length; i++) {
+				var cDot = this.dots[i];
+				cDot.position.x += cDot.speedx;
+				cDot.baseY += cDot.speedy;
+				var xDist = mouseX - cDot.position.x;
+				var yDist = mouseY - cDot.position.y;
+				var r = 200;
+				var tY = cDot.baseY;
+				if (Math.abs(xDist) < r && Math.abs(yDist) < r) {
+					var expYDist = (Math.sqrt(r * r - ((xDist - 0) * (xDist - 0))/1.5));
+					if (!expYDist || expYDist == 0) {
+						tY = cDot.baseY;
+					} else if (cDot.position.y > mouseY) {
+						tY  = Math.max(mouseY + expYDist, cDot.baseY);
+					} else {
+						tY  = Math.min(mouseY - expYDist, cDot.baseY);
+					}
+				}
+				cDot.position.y -= (cDot.position.y - tY) / 5;
+				var newScale = cDot.baseScale * (1 - 0.7 * Math.sin(Math.PI * ((this.c % 50) / 50)));
+				cDot.scale.y = newScale;
+				cDot.scale.x = newScale;
 			}
+				for(var i = 0; i < 2; i++) {
+					if (this.c < 1000) this.spawnDot();
+				}
 		}
 		
 	};
 	this.start = function() {
 		this.started = true;
+		this.spawnDot();
+		this.spawnDot();
+		this.spawnDot();
+		this.spawnDot();
+		this.spawnDot();
+		this.spawnDot();
+		this.spawnDot();
+		this.spawnDot();
 		this.spawnDot();
 	};
 	this.end = function() {
@@ -54,26 +66,26 @@ function background_1(_stage) {
 		this.started = false;
 	};
 	this.spawnDot = function () {
-		var dir = (Math.random() > 0.49) ? 1 : -1;
-		var cDot = new PIXI.Sprite(this.dotTexture);
-		cDot.anchor.x = 0.5;
-		cDot.anchor.y = 0.5;
+		var dir = (Math.random() > 0.49) ? 1 : 1;
+		var cDot = new PIXI.Graphics();
+		cDot.lineStyle(0);
+		cDot.beginFill(0xAAAAAA, 0.5);
+		cDot.drawCircle(0, 0, 35);
+		//cDot.anchor.x = 0.5; // Sprites only
+		//cDot.anchor.y = 0.5;
 		if (dir > 0) cDot.position.x = -200 - Math.random() * 40;
 		if (dir < 0) cDot.position.x = 1200 + Math.random() * 40;
 		cDot.position.y = Math.random() * this.stage.stage_height;
 		cDot.baseY = cDot.position.y;
-		var scale = Math.random() * 2.5 * Math.random();
+		var scale = (1 - 0.5 * Math.random()) * 2 + 0.5;
 		if (scale < .1) scale = .1;
 		cDot.baseScale = scale;
 		cDot.scale.x = scale;
 		cDot.scale.y = scale;
-		cDot.alpha = (scale / 2.5);
-		if (cDot.alpha < .4) cDot.alpha = .4;
-		if (cDot.alpha > 1) cDot.alpha = 1;
 		cDot.rotation = Math.random() * 360;
-		cDot.speedx = (scale * 1 + .2) * dir;
-		cDot.speedy = Math.random() * 2 - 1;
-		cDot.tint = Math.random() * 0xFFFFFF;
+		cDot.speedx = (scale * 4.5 + 2) * dir * (1 - (0.3 * Math.random()));
+		cDot.speedy = 0;
+		cDot.tint = MiscUtils.getRandoColor();
 		this.stage.addChild(cDot);
 		this.dots.push(cDot);
 	};
