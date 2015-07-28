@@ -15,9 +15,11 @@
 	<script src="js/rain_ele.js"></script>
 </head>
 <body>
+	<div style="float: right">
 	<script>
 	// create an new instance of a pixi stage
-	var stage = new PIXI.Stage(0x111111);
+	var stage = new PIXI.Container(0x111111);
+	stage.on('mousemove', mouseMoveCallback);
 	var stage_height = 500;
 	var stage_width = 1000;
 	stage.stage_height = stage_height;
@@ -28,14 +30,14 @@
 	document.body.appendChild(renderer.view);
 
 	var eleMan = new element_manager(stage);
-	var rainEle = new rain_ele(100, 0xAAAAAA);
+	var rainEle = new rain_ele(5, 0xAAAAAA);
 	eleMan.init([rainEle]);
 	
-	requestAnimFrame( mainloop );
+	requestAnimationFrame( mainloop );
 
 	function mainloop() {
 		// Continue to request animation
-	    requestAnimFrame( mainloop );
+	    requestAnimationFrame( mainloop );
 		
 		eleMan.loop();
 		
@@ -43,8 +45,20 @@
 	    // render the stage   
 	    renderer.render(stage);
 	}
-
-	</script>
+	
+	function mouseMoveCallback(mouseData) {
+		console.log("X = " + mouseData.data.originalEvent.movementX);
+		stage.mouseX = mouseData.data.originalEvent.movementX;
+		stage.mouseY = mouseData.data.originalEvent.movementY;
+	}
+	function densityChange(val) {
+		console.log(val);
+			rainEle.density = parseInt(val);
+	}
+	</script></div>
+	<div style="float: right">
+	<input type="text" value="10" onchange="densityChange(this.value)"/></br>
 	<a target="_blank" href="https://www.youtube.com/watch?v=jX6kn9_U8qk">Rain Sounds (New Tab)</a>
+	</div>
 </body>
 </html>

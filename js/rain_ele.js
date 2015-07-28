@@ -30,8 +30,8 @@ function rain_ele(_density, _color) {
 			this.rainGraphic.moveTo(x,y);
 			var tx = x-40-Math.random()*40;
 			var ty = y+200+Math.random()*450;
-			var mouseX = this.parentStage.getMousePosition().x;
-			var mouseY = this.parentStage.getMousePosition().y- 30;
+			var mouseX = this.parentStage.mouseX;
+			var mouseY = this.parentStage.mouseY;
 			var mo1 = this.orientation(x, y, tx, ty, mouseX - umWidth, mouseY);
 			var mo2 = this.orientation(x, y, tx, ty, mouseX + umWidth, mouseY);
 			var hit = false;
