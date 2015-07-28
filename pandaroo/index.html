@@ -1,92 +1,102 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>The Pandaroo</title>
-	<style>
-		body {
-			margin: 0;
-			padding: 0;
-			background-color: #000000;
-		}
-	</style>
-	<script src="../lib/pixi.js"></script>
-	<script src="../lib/keyboard.js"></script>
+<title>The Pandaroo</title>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #000000;
+}
+</style>
+<script src="../lib/pixi.js"></script>
+<script src="../lib/keyboard.js"></script>
 </head>
 <body>
 	<div style="float: right">
-	<script>
-	var renderer = PIXI.autoDetectRenderer(700, 400,{backgroundColor : 0x1099bb});
-	document.body.appendChild(renderer.view);
+		<script>
+			var renderer = PIXI.autoDetectRenderer(700, 400, {
+				backgroundColor : 0x1099bb
+			});
+			document.body.appendChild(renderer.view);
 
-	// create the root of the scene graph
-	var stage = new PIXI.Container();
+			// create the root of the scene graph
+			var stage = new PIXI.Container();
 
-	// create a texture from an image path
-	var texture = PIXI.Texture.fromImage('../textures/pandaroo.png');
+			// create a texture from an image path
+			var texture = PIXI.Texture.fromImage('../textures/pandaroo.png');
 
-	var ground = new PIXI.Graphics();
-	ground.beginFill(0x228800);
-	ground.drawRect(0, 350, 700, 50);
-	ground.endFill();
-	stage.addChild(ground);
-	
-	// create a new Sprite using the texture
-	var pdro = new PIXI.Sprite(texture);
+			var ground = new PIXI.Graphics();
+			ground.beginFill(0x228800);
+			ground.drawRect(0, 350, 700, 50);
+			ground.endFill();
+			stage.addChild(ground);
 
-	// center the sprite's anchor point
-	pdro.anchor.x = 0.5;
-	pdro.anchor.y = 0.8;
-	pdro.scale.x = 2;
-	pdro.scale.y = 2;
+			// create a new Sprite using the texture
+			var pdro = new PIXI.Sprite(texture);
 
-	var platformsContainer = new PIXI.Container();
-	stage.addChild(platformsContainer);
-	
-	// move the sprite to the center of the screen
-	pdro.position.x = 350;
-	pdro.position.y = 350;
-	pdro.vy = 0;
-	stage.addChild(pdro);
+			// center the sprite's anchor point
+			pdro.anchor.x = 0.5;
+			pdro.anchor.y = 0.8;
+			pdro.scale.x = 2;
+			pdro.scale.y = 2;
 
-	var space = keyboard(32);
-	space.press = function () {
-		if (pdro.position.y >= 350) {
-			pdro.vy = -10;
-		}
-	}
-	
-	var platTimer = 0;
-	
-	// start animating
-	animate();
-	function animate() {
-		platTimer++;
-	    requestAnimationFrame(animate);
-		pdro.position.y += pdro.vy;
+			var platformsContainer = new PIXI.Container();
+			stage.addChild(platformsContainer);
 
-	    if (pdro.position.y < 350) {
-	    	pdro.vy += 0.2;
-	    } else if (pdro.vy != 0) {
-	    	pdro.position.y = 350;
-	    	pdro.vy = 0;
-	    }
-	    
-	    if (platTimer%75 == 0) {
-	    	var plato = new PIXI.Graphics();
-	    	plato.beginFill(0x88AA33);
-	    	plato.drawRect(Math.random()*50 + 750 - platformsContainer.position.x, Math.random()*300 + 50 , 70, 25);
-	    	plato.endFill();
-	    	platformsContainer.addChild(plato);
-	    }
-    	platformsContainer.position.x -= 5;
-	    // render the container
-	    renderer.render(stage);
-	}
-	
-	function onMouseDown() {
-		console.log('pizza');
-	}
+			window.addEventListener("click", function() {
+				if (pdro.position.y >= 350) {
+					pdro.vy = -10;
+				}
+			}, false);
 
-	</script></div>
+			// move the sprite to the center of the screen
+			pdro.position.x = 350;
+			pdro.position.y = 350;
+			pdro.vy = 0;
+			stage.addChild(pdro);
+
+			var space = keyboard(32);
+			space.press = function() {
+				if (pdro.position.y >= 350) {
+					pdro.vy = -10;
+				}
+			}
+
+			var platTimer = 0;
+
+			// start animating
+			animate();
+			function animate() {
+				platTimer++;
+				requestAnimationFrame(animate);
+				pdro.position.y += pdro.vy;
+
+				if (pdro.position.y < 350) {
+					pdro.vy += 0.2;
+				} else if (pdro.vy != 0) {
+					pdro.position.y = 350;
+					pdro.vy = 0;
+				}
+
+				if (platTimer % 75 == 0) {
+					var plato = new PIXI.Graphics();
+					plato.beginFill(0x88AA33);
+					plato.drawRect(Math.random() * 50 + 750
+							- platformsContainer.position.x,
+							Math.random() * 300 + 50, 70, 25);
+					plato.endFill();
+					platformsContainer.addChild(plato);
+				}
+				platformsContainer.position.x -= 5;
+				// render the container
+				renderer.render(stage);
+			}
+
+			function onMouseDown() {
+				console.log('pizza');
+			}
+		</script>
+	</div>
 </body>
 </html>
