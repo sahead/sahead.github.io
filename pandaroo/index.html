@@ -49,6 +49,12 @@ body {
 					pdro.vy = -10;
 				}
 			}, false);
+			
+			window.addEventListener("touchstart", function() {
+				if (pdro.position.y >= 350) {
+					pdro.vy = -10;
+				}
+			}, false);
 
 			// move the sprite to the center of the screen
 			pdro.position.x = 350;
