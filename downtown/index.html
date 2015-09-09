@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>The Pandaroo</title>
+<title>Downtown!</title>
 <style>
 body {
 	margin: 0;
@@ -29,7 +29,7 @@ body {
 			stage.addChild(ground);
 
 			// Pandaroo Object Creation
-			var pdro = new PIXI.Sprite(PIXI.Texture.fromImage('../textures/pandaroo.png'));
+			var pdro = new PIXI.Sprite(PIXI.Texture.fromImage('../textures/MooseBike.png'));
 			pdro.anchor.x = 0.5;
 			pdro.anchor.y = 0.8;
 			pdro.scale.x = 2;
@@ -61,7 +61,7 @@ body {
 				pdro.position.y += pdro.vy;
 
 				if (pdro.position.y < 350) {
-					pdro.vy += 0.8;
+					pdro.vy += 0.9;
 					pdro.rotation = -0.25;
 				} else if (pdro.vy != 0) {
 					pdro.position.y = 350;
