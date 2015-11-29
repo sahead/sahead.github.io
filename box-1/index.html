@@ -43,7 +43,7 @@ body {
 				count++;
 				requestAnimationFrame(animate);
 				
-				if (count%5 == 0) {
+				if (count%10 == 0) {
 					for (var i = 0; i < boxes.length; i++) {
 						boxes[i].clear();
 						boxes[i].beginFill(0x228800 + (boxes[i].cI+boxes[i].cJ+count)*505050);
