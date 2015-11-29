@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Boxes!</title>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #000000;
+}
+</style>
+<script src="../lib/pixi.js"></script>
+<script src="../lib/keyboard.js"></script>
+</head>
+<body>
+	<div style="float: right">
+		<script>
+			var stageWidth = 400;
+			var stageHeight = 500;
+			var renderer = PIXI.autoDetectRenderer(stageWidth, stageHeight, {
+				backgroundColor : 0x1099bb
+			});
+			document.body.appendChild(renderer.view);
+			var stage = new PIXI.Container();
+			var boxes = [];
+			for (var i = 0; i < (stageWidth / 50); i++) {
+				for (var j = 0; j <(stageHeight / 50); j++) {
+					// Background Creation
+					var box = new PIXI.Graphics();
+					box.cI = i;
+					box.cJ = j;
+					box.beginFill(0x228800 + (i+j)*505050);
+					box.drawRect(50*i, 50*j, 50, 50);
+					box.endFill();
+					stage.addChild(box);
+					boxes.push(box);
+				}
+			}
+			var count = 0;
+			// animation loop
+			animate();
+			function animate() {
+				count++;
+				requestAnimationFrame(animate);
+				
+				if (count%5 == 0) {
+					for (var i = 0; i < boxes.length; i++) {
+						boxes[i].clear();
+						boxes[i].beginFill(0x228800 + (boxes[i].cI+boxes[i].cJ+count)*505050);
+						boxes[i].drawRect(50*boxes[i].cI, 50*boxes[i].cJ, 50, 50);
+						boxes[i].endFill();
+					}
+				}
+				
+				// render the container
+				renderer.render(stage);
+			}
+
+		</script>
+	</div>
+</body>
+</html>
